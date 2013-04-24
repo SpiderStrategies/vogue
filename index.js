@@ -29,6 +29,7 @@ var Handle = Backbone.View.extend({
     var percentage = (e.clientX - this.$el.parent().offset().left) / this.$el.parent().width()
     if (percentage > 0 && percentage < 1) {
       this.$el.css('left', parseInt(percentage * 100, 10) + '%')
+      this.trigger('change', percentage)
     }
   },
 
@@ -47,6 +48,10 @@ var Slider = Backbone.View.extend({
   render: function () {
     this.$el.html(this.template)
     var handle = new Handle
+
+    handle.on('change', function (percentage) {
+      this.trigger('change', percentage)
+    }, this)
 
     this.$('.slider-bar').append(handle.el)
     return this
