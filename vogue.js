@@ -3,8 +3,21 @@
   - pinch zoom
   - TESTS!
   - hide image until it is loaded and zoomed correctly
+  - currently assumes the window is cropping out 40px on each side; figure out a way to determine that from the CSS
+  - decide if I want to make this usable by AMD, too
+  - a better min/max zoom? Allow it to be specified?
 */
-(function (root) {
+(function (root, factory) {
+    if (typeof exports === 'object') {
+        // CommonJS
+        factory(module, require('backbone'), require('underscore'));
+    } else {
+        // Browser globals
+        var fakeModule = {}
+        factory(fakeModule, root.Backbone, root._);
+        root.Vogue = fakeModule.exports
+    }
+}(this, function (module, Backbone, _) {
   function pxToNum (px) {
     return parseInt(px.replace('px', ''))
   }
@@ -38,24 +51,33 @@
 
       img.src = this.options.img
 
-      var preview = this.$el.append('<div class="vogue-preview"><div class="vogue-preview-box"></div></div>')
+      var preview = this.$el.append('<div class="vogue-preview"><div class="vogue-preview-box"></div><span class="vogue-preview-shade"></span></div>')
 
-      this.$('.vogue-preview').append(img).css({
+      this.$('.vogue-preview').css({
         height: this.options.preview.height + 'px',
         width: this.options.preview.width + 'px'
       })
 
       $img.load(function () {
         self.original = {
-          width: $img.width(),
-          height: $img.height(),
+          width: img.width,
+          height: img.height,
           left: pxToNum($img.css('left')),
           top: pxToNum($img.css('top'))
         }
 
+        $img.css({
+          width: img.width,
+          height: img.height,
+          'max-width': img.width,
+          'max-height': img.height
+        })
+
+        self.$('.vogue-preview').append(img)
+
         var widthZoom = self.options.preview.width / self.original.width
           , heightZoom = self.options.preview.height / self.original.height
-          , initialZoom = Math.min(widthZoom, heightZoom)
+          , initialZoom = Math.min(widthZoom, heightZoom, 2)
           , initialX = (self.options.preview.width - (self.original.width * initialZoom)) / 2
           , initialY = (self.options.preview.height - (self.original.height * initialZoom)) / 2
 
@@ -73,6 +95,17 @@
       })
 
       return this
+    },
+
+    window: function () {
+      var frameWidth = 40
+      return {
+        zoom: this.cropState.zoom,
+        x: (-1*this.cropState.offsetX) + frameWidth,
+        y: (-1*this.cropState.offsetY) + frameWidth,
+        width: this.options.preview.width - (frameWidth*2),
+        height: this.options.preview.height - (frameWidth*2)
+      }
     },
 
     zoom: function (zoom) {
@@ -110,8 +143,6 @@
     },
 
     move: function (e) {
-      // alert('move: ' + this.dragStartLoc.top + ' ' + this.dragStartLoc.left + ' ' + this.dragStartLoc.mouseY + ' ' + this.dragStartLoc.mouseX)
-
       e.stopPropagation()
 
       this.$('img').css({
@@ -207,6 +238,5 @@
     return e.type === 'touchmove'|| e.type == 'touchstart' ? e.originalEvent.touches[0].pageY : e.pageY
   }
 
-  root.Vogue = Vogue
-
-})(window)
+  module.exports = Vogue
+}));

@@ -81,8 +81,7 @@
   float: right;
 }
 
-.vogue .vogue-preview:after {
-  content: "";
+.vogue .vogue-preview-shade {
   position: absolute;
   top: 0;
   left: 0;
