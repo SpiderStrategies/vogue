@@ -1,10 +1,8 @@
 /* TODO
-  - add non-webkit stuff
   - When zooming, keep same center point
-  - get rid of hardcoded 400x400 logic
-  - initial offset for non-square images
-  - touch events
+  - pinch zoom
   - TESTS!
+  - hide image until it is loaded and zoomed correctly
 */
 (function (root) {
   function pxToNum (px) {
@@ -16,6 +14,7 @@
 
     events: {
       'mousedown': 'startMove',
+      'touchstart': 'startMove',
       'click': 'click'
     },
 
@@ -32,13 +31,18 @@
         , img = new Image()
         , $img = $(img)
 
+      this.$el.css({
+        // Don't restrain main container's height, just width
+        width: this.options.preview.width + 'px'
+      })
+
       img.src = this.options.img
 
       var preview = this.$el.append('<div class="vogue-preview"><div class="vogue-preview-box"></div></div>')
 
-      this.$('.vogue-preview-box').append(img).css({
-        'height': '400px',
-        'width': '400px'
+      this.$('.vogue-preview').append(img).css({
+        height: this.options.preview.height + 'px',
+        width: this.options.preview.width + 'px'
       })
 
       $img.load(function () {
@@ -49,10 +53,14 @@
           top: pxToNum($img.css('top'))
         }
 
-        var widthZoom = 400 / self.original.width
-          , heightZoom = 400 / self.original.height
+        var widthZoom = self.options.preview.width / self.original.width
+          , heightZoom = self.options.preview.height / self.original.height
           , initialZoom = Math.min(widthZoom, heightZoom)
+          , initialX = (self.options.preview.width - (self.original.width * initialZoom)) / 2
+          , initialY = (self.options.preview.height - (self.original.height * initialZoom)) / 2
 
+        self.cropState.offsetY = initialY
+        self.cropState.offsetX = initialX
         self.zoom(initialZoom)
 
         var slider = new Slider({percentage: initialZoom})
@@ -75,6 +83,8 @@
       }
 
       $img.css({
+        'transform': 'scale(' + (zoom) + ')',
+        '-ms-transform': 'scale(' + (zoom) + ')',
         '-webkit-transform': 'scale(' + (zoom) + ')',
         left: zoomLocation(this.original.width, this.cropState.offsetX, zoom) + 'px',
         top: zoomLocation(this.original.height, this.cropState.offsetY, zoom)  + 'px'
@@ -87,35 +97,36 @@
       e.preventDefault()
       e.stopPropagation()
 
-      $(document).mousemove(this.move)
-      $(document).mouseup(this.endMove)
+      $(document).on('mousemove touchmove', this.move)
+      $(document).on('mouseup touchend', this.endMove)
 
       var $img  = this.$('img')
       this.dragStartLoc = {
-        // TODO is this substring safe?
         top: Number($img.css('top').replace('px', '')),
         left: Number($img.css('left').replace('px', '')),
-        mouseX: e.pageX,
-        mouseY: e.pageY
+        mouseX: pageX(e),
+        mouseY: pageY(e)
       }
     },
 
     move: function (e) {
+      // alert('move: ' + this.dragStartLoc.top + ' ' + this.dragStartLoc.left + ' ' + this.dragStartLoc.mouseY + ' ' + this.dragStartLoc.mouseX)
+
       e.stopPropagation()
 
       this.$('img').css({
-        top: (this.dragStartLoc.top + e.pageY - this.dragStartLoc.mouseY) + 'px',
-        left: (this.dragStartLoc.left + e.pageX - this.dragStartLoc.mouseX) + 'px'
+        top: (this.dragStartLoc.top + pageY(e) - this.dragStartLoc.mouseY) + 'px',
+        left: (this.dragStartLoc.left + pageX(e) - this.dragStartLoc.mouseX) + 'px'
       })
     },
 
     endMove: function (e) {
       e.preventDefault()
-      $(document).unbind('mousemove', this.move)
-      $(document).unbind('mouseup', this.end)
+      $(document).off('mousemove touchmove', this.move)
+      $(document).off('mouseup touchend', this.end)
 
-      this.cropState.offsetX = this.cropState.offsetX + e.pageX - this.dragStartLoc.mouseX
-      this.cropState.offsetY = this.cropState.offsetY + e.pageY - this.dragStartLoc.mouseY
+      this.cropState.offsetX = this.cropState.offsetX + pageX(e) - this.dragStartLoc.mouseX
+      this.cropState.offsetY = this.cropState.offsetY + pageY(e) - this.dragStartLoc.mouseY
     },
 
     click: function (e) {
@@ -124,31 +135,29 @@
   })
 
   var Handle = Backbone.View.extend({
-    tagName: 'a',
-
     className: 'slider-handle',
 
     events: {
       'mousedown': 'start',
+      'touchstart': 'start',
       'click': 'click'
     },
 
     initialize: function () {
       _.bindAll(this, 'move', 'end')
-      this.$el.attr('href', '#')
     },
 
     start: function (e) {
       e.preventDefault()
       e.stopPropagation()
 
-      $(document).mousemove(this.move)
-      $(document).mouseup(this.end)
+      $(document).on('mousemove touchmove', this.move)
+      $(document).on('mouseup touchend', this.end)
     },
 
     move: function (e) {
       e.stopPropagation()
-      var percentage = (e.clientX - this.$el.parent().offset().left) / this.$el.parent().width()
+      var percentage = (pageX(e) - this.$el.parent().offset().left) / this.$el.parent().width()
       if (percentage > 0 && percentage < 1) {
         this.$el.css('left', parseInt(percentage * 100, 10) + '%')
         this.trigger('change', percentage)
@@ -157,8 +166,8 @@
 
     end: function (e) {
       e.preventDefault()
-      $(document).unbind('mousemove', this.move)
-      $(document).unbind('mouseup', this.end)
+      $(document).off('mousemove touchmove gesturechange', this.move)
+      $(document).off('mouseup touchend gestureend', this.end)
     },
 
     click: function (e) {
@@ -172,22 +181,31 @@
 
     template: '<div class="slider-bar"></div>',
 
+    maxPercentage: 2,
+
     render: function () {
       this.$el.html(this.template)
       var handle = new Handle()
 
       handle.on('change', function (percentage) {
-        this.trigger('change', percentage * 2)
+        this.trigger('change', percentage * this.maxPercentage)
       }, this)
 
       this.$('.slider-bar').append(handle.el)
       if (this.options.percentage) {
-        handle.$el.css('left', (this.options.percentage * 100 / 2 + '%'))
+        handle.$el.css('left', (this.options.percentage * 100 / this.maxPercentage + '%'))
       }
       return this
     }
   })
 
+  function pageX(e) {
+    return e.type === 'touchmove' || e.type == 'touchstart' ? e.originalEvent.touches[0].pageX : e.pageX
+  }
+
+  function pageY(e) {
+    return e.type === 'touchmove'|| e.type == 'touchstart' ? e.originalEvent.touches[0].pageY : e.pageY
+  }
 
   root.Vogue = Vogue
 

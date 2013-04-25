@@ -21,16 +21,15 @@
         margin-top: 50px;
       }
 
-
-      .vogue {
-        width: 400px;
-        height: 400px;
-      }
     </style>
 
     <script type="text/javascript">
       $(document).ready(function() {
         var vogue = new Vogue({
+          preview: {
+            height: 400,
+            width: 400
+          },
           img: 'http://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Pair_of_Merops_apiaster_feeding.jpg/800px-Pair_of_Merops_apiaster_feeding.jpg',
           // img: './scott.jpeg'
         })
