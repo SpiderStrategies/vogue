@@ -124,6 +124,7 @@
       })
 
       this.cropState.zoom = zoom
+      this.trigger('zoom')
     },
 
     startMove: function (e) {
@@ -158,6 +159,8 @@
 
       this.cropState.offsetX = this.cropState.offsetX + pageX(e) - this.dragStartLoc.mouseX
       this.cropState.offsetY = this.cropState.offsetY + pageY(e) - this.dragStartLoc.mouseY
+
+      this.trigger('moveEnd')
     },
 
     click: function (e) {
