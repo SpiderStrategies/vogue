@@ -51,7 +51,7 @@
 
       img.src = this.options.img
 
-      var preview = this.$el.append('<div class="vogue-preview"><div class="vogue-preview-box"></div><span class="vogue-preview-shade"></span></div>')
+      var preview = this.$el.append('<div class="vogue-preview"><span class="vogue-preview-shade"></span></div>')
 
       this.$('.vogue-preview').css({
         height: this.options.preview.height + 'px',
@@ -98,7 +98,7 @@
     },
 
     window: function () {
-      var frameWidth = 40
+      var frameWidth = 30
       return {
         zoom: this.cropState.zoom,
         x: (-1*this.cropState.offsetX) + frameWidth,
@@ -213,7 +213,7 @@
   var Slider = Backbone.View.extend({
     className: 'slider',
 
-    template: '<div class="slider-bar"></div>',
+    template: '<div class="slider-small"></div><div class="slider-bar-wrapper"><div class="slider-bar"></div></div><div class="slider-big"></div>',
 
     maxPercentage: 2,
 
