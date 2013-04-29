@@ -1,11 +1,8 @@
 /* TODO
-  - When zooming, keep same center point
   - pinch zoom
-  - TESTS!
   - hide image until it is loaded and zoomed correctly
-  - currently assumes the window is cropping out 40px on each side; figure out a way to determine that from the CSS
+  - currently assumes the window is cropping out 30px on each side; figure out a way to determine that from the CSS
   - decide if I want to make this usable by AMD, too
-  - a better min/max zoom? Allow it to be specified?
 */
 (function (root, factory) {
     if (typeof exports === 'object') {
@@ -33,10 +30,15 @@
 
     initialize: function () {
       _.bindAll(this, 'move', 'endMove')
-      this.cropState = {
-        offsetX: 0,
-        offsetY: 0
+
+      this.frameWidth = 30
+    },
+
+    loaded: function () {
+      if(!this._loaded) {
+        this._loaded = new $.Deferred()
       }
+      return this._loaded
     },
 
     render: function () {
@@ -61,9 +63,7 @@
       $img.load(function () {
         self.original = {
           width: img.width,
-          height: img.height,
-          left: pxToNum($img.css('left')),
-          top: pxToNum($img.css('top'))
+          height: img.height
         }
 
         $img.css({
@@ -75,55 +75,97 @@
 
         self.$('.vogue-preview').append(img)
 
-        var widthZoom = self.options.preview.width / self.original.width
-          , heightZoom = self.options.preview.height / self.original.height
-          , initialZoom = Math.min(widthZoom, heightZoom, 2)
-          , initialX = (self.options.preview.width - (self.original.width * initialZoom)) / 2
-          , initialY = (self.options.preview.height - (self.original.height * initialZoom)) / 2
+        var widthZoom = (self.options.preview.width - self.frameWidth) / self.original.width
+          , heightZoom = (self.options.preview.height - self.frameWidth) / self.original.height
+          , initialZoom = Math.max(widthZoom, heightZoom)
+          , initialX = (self.options.preview.width - self.original.width) / 2
+          , initialY = (self.options.preview.height - self.original.height) / 2
 
-        self.cropState.offsetY = initialY
-        self.cropState.offsetX = initialX
+        // Minimum zoom is the smallest zoom that still allows the image to completely fill the window;
+        // maximum zoom is 3x the minimum
+        self._minZoom = Math.max((self.options.preview.width - (self.frameWidth * 2)) / self.original.width,
+          (self.options.preview.height - (self.frameWidth * 2)) / self.original.height)
+        self._maxZoom = self._minZoom * 3
+
+        $img.css({
+          left: initialX,
+          top: initialY
+        })
+
         self.zoom(initialZoom)
 
-        var slider = new Slider({percentage: initialZoom})
+        var slider = new Slider({ percentage: self._sliderPercent(initialZoom) })
 
         slider.on('change', function (percentage) {
-          self.zoom(percentage)
+          self.zoom(self._realPercent(percentage))
         })
 
         self.$el.append(slider.render().el)
+
+        self.loaded().resolve()
       })
 
       return this
     },
 
+    // Turn the zoom number (between _minZoom and _maxZoom) into a slider percentage (0 - 1.0)
+    _sliderPercent: function (zoom) {
+      return (zoom - this._minZoom) / (this._maxZoom - this._minZoom)
+    },
+
+    // Turn the slider percentage into the corresponding zoom
+    _realPercent: function (slider) {
+      return (slider * (this._maxZoom - this._minZoom)) + this._minZoom
+    },
+
     window: function () {
-      var frameWidth = 30
+      var coords = this._currentCoords();
       return {
-        zoom: this.cropState.zoom,
-        x: (-1*this.cropState.offsetX) + frameWidth,
-        y: (-1*this.cropState.offsetY) + frameWidth,
-        width: this.options.preview.width - (frameWidth*2),
-        height: this.options.preview.height - (frameWidth*2)
+        zoom: this._zoom,
+        x: -(coords.scaled.left) + this.frameWidth,
+        y:  -(coords.scaled.top) + this.frameWidth,
+        width: this.options.preview.width - (this.frameWidth*2),
+        height: this.options.preview.height - (this.frameWidth*2)
       }
+    },
+
+    _currentCoords: function () {
+      var $img = this.$('img:first')
+
+      return calcCoords({
+        scale: this._zoom,
+        unscaled: {
+          left: pxToNum($img.css('left')),
+          top: pxToNum($img.css('top')),
+          width: this.original.width,
+          height: this.original.height
+        }
+      })
     },
 
     zoom: function (zoom) {
       var $img = this.$('img')
 
-      function zoomLocation (dimension, offset, zoom) {
-        return (((dimension * (1-zoom)) / 2) - offset) * -1
-      }
+      var oldCoords = this._currentCoords()
+
+      var zoomedCoords = calcCoords({
+        scale: zoom,
+        unscaled: oldCoords.unscaled
+      })
+
+      var constrained = this._constrain(oldCoords.unscaled.left - zoomedCoords.unscaled.left + zoomedCoords.unscaled.left,
+        oldCoords.unscaled.top - zoomedCoords.unscaled.top + zoomedCoords.unscaled.top,
+        zoom)
 
       $img.css({
         'transform': 'scale(' + (zoom) + ')',
         '-ms-transform': 'scale(' + (zoom) + ')',
         '-webkit-transform': 'scale(' + (zoom) + ')',
-        left: zoomLocation(this.original.width, this.cropState.offsetX, zoom) + 'px',
-        top: zoomLocation(this.original.height, this.cropState.offsetY, zoom)  + 'px'
+        left: constrained.left + 'px',
+        top: constrained.top + 'px',
       })
 
-      this.cropState.zoom = zoom
+      this._zoom = zoom
       this.trigger('zoom')
     },
 
@@ -143,12 +185,63 @@
       }
     },
 
+    _constrain: function (left, top, zoom) {
+      var newCoords = calcCoords({
+        scale: zoom,
+        unscaled: {
+          left: left,
+          top: top,
+          width: this.original.width,
+          height: this.original.height
+        }
+      })
+
+      function newScaled(source, scaledChanges) {
+        return {
+          scale: source.scale,
+          scaled: _.extend(_.clone(source.scaled), scaledChanges)
+        }
+      }
+
+      var minScaledLeft = this.options.preview.width - this.frameWidth - newCoords.scaled.width
+        , minScaledTop = this.options.preview.height - this.frameWidth - newCoords.scaled.height
+        , maxScaledLeft = this.frameWidth
+        , maxScaledTop = this.frameWidth
+
+      // Make sure top and left don't stray inside the window
+      if(newCoords.scaled.left > maxScaledLeft) {
+        left = calcCoords(newScaled(newCoords, {left: maxScaledLeft})).unscaled.left
+      }
+
+      if(newCoords.scaled.top > this.frameWidth) {
+        top = calcCoords(newScaled(newCoords, {top: maxScaledTop})).unscaled.top
+      }
+
+      // Make sure bottom and right don't stray inside the window
+      if(newCoords.scaled.left < minScaledLeft) {
+        left = calcCoords(newScaled(newCoords, {left: minScaledLeft})).unscaled.left
+      }
+
+      if(newCoords.scaled.top < minScaledTop) {
+        top = calcCoords(newScaled(newCoords, {top: minScaledTop})).unscaled.top
+      }
+
+      return {
+        top: top,
+        left: left
+      }
+    },
+
     move: function (e) {
       e.stopPropagation()
 
+      var left = this.dragStartLoc.left + pageX(e) - this.dragStartLoc.mouseX
+        , top = this.dragStartLoc.top + pageY(e) - this.dragStartLoc.mouseY
+        , constrained = this._constrain(left, top, this._zoom)
+
       this.$('img').css({
-        top: (this.dragStartLoc.top + pageY(e) - this.dragStartLoc.mouseY) + 'px',
-        left: (this.dragStartLoc.left + pageX(e) - this.dragStartLoc.mouseX) + 'px'
+        top: constrained.top + 'px',
+        left: constrained.left + 'px'
       })
     },
 
@@ -157,9 +250,6 @@
       $(document).off('mousemove touchmove', this.move)
       $(document).off('mouseup touchend', this.end)
 
-      this.cropState.offsetX = this.cropState.offsetX + pageX(e) - this.dragStartLoc.mouseX
-      this.cropState.offsetY = this.cropState.offsetY + pageY(e) - this.dragStartLoc.mouseY
-
       this.trigger('moveEnd')
     },
 
@@ -167,6 +257,34 @@
       e.preventDefault()
     }
   })
+
+  function calcCoords (coords) {
+    if(coords.unscaled) {
+      return {
+        scale: coords.scale,
+        unscaled: coords.unscaled,
+        scaled: {
+          left: coords.unscaled.left + (coords.unscaled.width * (1-coords.scale) / 2),
+          top: coords.unscaled.top + (coords.unscaled.height * (1-coords.scale) / 2),
+          width: coords.unscaled.width * coords.scale,
+          height: coords.unscaled.height * coords.scale
+        }
+     }
+   } else if(coords.scaled) {
+      return {
+        scale: coords.scale,
+        unscaled: {
+          left: coords.scaled.left - ((coords.scaled.width / coords.scale) * (1-coords.scale) / 2),
+          top: coords.scaled.top - ((coords.scaled.height / coords.scale) * (1-coords.scale) / 2),
+          width: coords.scaled.width / coords.scale,
+          height: coords.scaled.height / coords.scale
+        },
+        scaled: coords.scaled
+      }
+     } else {
+      throw new Error('need either scaled or unscaled coords')
+     }
+  }
 
   var Handle = Backbone.View.extend({
     className: 'slider-handle',
@@ -215,19 +333,18 @@
 
     template: '<div class="slider-small"></div><div class="slider-bar-wrapper"><div class="slider-bar"></div></div><div class="slider-big"></div>',
 
-    maxPercentage: 2,
 
     render: function () {
       this.$el.html(this.template)
       var handle = new Handle()
 
       handle.on('change', function (percentage) {
-        this.trigger('change', percentage * this.maxPercentage)
+        this.trigger('change', percentage)
       }, this)
 
       this.$('.slider-bar').append(handle.el)
       if (this.options.percentage) {
-        handle.$el.css('left', (this.options.percentage * 100 / this.maxPercentage + '%'))
+        handle.$el.css('left', (this.options.percentage * 100 + '%'))
       }
       return this
     }
