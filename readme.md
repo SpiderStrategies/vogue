@@ -1,1 +1,3 @@
-Nothing to see here, move along.
+A simple and classy image cropper.
+
+See example.
