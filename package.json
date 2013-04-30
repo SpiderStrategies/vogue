@@ -2,6 +2,7 @@
   "name": "vogue",
   "version": "0.0.1",
   "description": "Image cropper",
+  "private": true,
   "main": "vogue.js",
   "directories": {
     "test": "test"
