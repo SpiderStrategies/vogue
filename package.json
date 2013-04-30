@@ -1,0 +1,29 @@
+{
+  "name": "vogue",
+  "version": "0.0.1",
+  "description": "Image cropper",
+  "main": "vogue.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/SpiderStrategies/vogue.git"
+  },
+  "keywords": [
+    "image",
+    "image-cropper",
+    "crop"
+  ],
+  "license": "BSD",
+  "readmeFilename": "readme.md",
+  "gitHead": "95ae1e765b58fb4508c2af166793101a02d8c1ea",
+  "devDependencies": {
+    "mocha": "~1.9.0",
+    "chai": "~1.6.0",
+    "uglify-js": "~2.2.5"
+  }
+}
