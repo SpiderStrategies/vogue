@@ -4,17 +4,8 @@
   - currently assumes the window is cropping out 30px on each side; figure out a way to determine that from the CSS
   - decide if I want to make this usable by AMD, too
 */
-(function (root, factory) {
-    if (typeof exports === 'object') {
-        // CommonJS
-        factory(module, require('backbone'), require('underscore'));
-    } else {
-        // Browser globals
-        var fakeModule = {}
-        factory(fakeModule, root.Backbone, root._);
-        root.Vogue = fakeModule.exports
-    }
-}(this, function (module, Backbone, _) {
+(function (root) {
+
   function pxToNum (px) {
     return parseInt(px.replace('px', ''))
   }
@@ -360,5 +351,5 @@
     return e.type === 'touchmove'|| e.type == 'touchstart' ? e.originalEvent.touches[0].pageY : e.pageY
   }
 
-  module.exports = Vogue
-}));
+  root.Vogue = Vogue
+})(window)
