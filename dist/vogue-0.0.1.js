@@ -93,8 +93,8 @@
         self._maxZoom = self._minZoom * 3
 
         $img.css({
-          left: initialX,
-          top: initialY
+          left: initialX + 'px',
+          top: initialY + 'px'
         })
 
         self.zoom(initialZoom)
@@ -140,8 +140,10 @@
       return calcCoords({
         scale: this._zoom,
         unscaled: {
-          left: pxToNum($img.css('left')),
-          top: pxToNum($img.css('top')),
+          // $img.css('left') is slightly off in Chrome 26.0.1410.65 (stable), but works in 28.0.1492.0 canary
+          // Using the native style.left seems to work in all browsers, so we'll do that for now
+          left: pxToNum($img[0].style.left),
+          top: pxToNum($img[0].style.top),
           width: this.original.width,
           height: this.original.height
         }
@@ -181,10 +183,10 @@
       $(document).on('mousemove touchmove', this.move)
       $(document).on('mouseup touchend', this.endMove)
 
-      var $img  = this.$('img')
+      var $img  = this.$('img:first')
       this.dragStartLoc = {
-        top: Number($img.css('top').replace('px', '')),
-        left: Number($img.css('left').replace('px', '')),
+        left: pxToNum($img[0].style.left),
+        top: pxToNum($img[0].style.top),
         mouseX: pageX(e),
         mouseY: pageY(e)
       }
