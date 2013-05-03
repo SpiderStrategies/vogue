@@ -10,11 +10,6 @@
   - decide if I want to make this usable by AMD, too
 */
 (function (root) {
-
-  function pxToNum (px) {
-    return parseInt(px.replace('px', ''))
-  }
-
   var Vogue = Backbone.View.extend({
     className: 'vogue',
 
@@ -133,8 +128,8 @@
         unscaled: {
           // $img.css('left') is slightly off in Chrome 26.0.1410.65 (stable), but works in 28.0.1492.0 canary
           // Using the native style.left seems to work in all browsers, so we'll do that for now
-          left: pxToNum($img[0].style.left),
-          top: pxToNum($img[0].style.top),
+          left: parseInt($img[0].style.left),
+          top: parseInt($img[0].style.top),
           width: this.original.width,
           height: this.original.height
         }
@@ -176,8 +171,8 @@
 
       var $img  = this.$('img:first')
       this.dragStartLoc = {
-        left: pxToNum($img[0].style.left),
-        top: pxToNum($img[0].style.top),
+        left: parseInt($img[0].style.left),
+        top: parseInt($img[0].style.top),
         mouseX: pageX(e),
         mouseY: pageY(e)
       }
