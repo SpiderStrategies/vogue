@@ -14,8 +14,8 @@
     className: 'vogue',
 
     events: {
-      'mousedown': 'startMove',
-      'touchstart': 'startMove',
+      'mousedown .vogue-preview': 'startMove',
+      'touchstart .vogue-preview': 'startMove',
       'click': 'click'
     },
 
