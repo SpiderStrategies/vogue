@@ -1,4 +1,5 @@
-var assert = chai.assert
+var Vogue = require('./vogue')
+  , assert = chai.assert
 
 describe('Vogue', function () {
   var inception
