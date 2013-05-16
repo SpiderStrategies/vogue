@@ -1,0 +1,187 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/Cellar/node/0.10.5/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'publish' ]
+2 info using npm@1.2.18
+3 info using node@v0.10.5
+4 verbose publish [ '.' ]
+5 verbose read json /Volumes/Bertha/users/koopa/development/playground/vogue/package.json
+6 verbose cache add [ '.', null ]
+7 verbose cache add name=undefined spec="." args=[".",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: '.',
+8 verbose parsed url   path: '.',
+8 verbose parsed url   href: '.' }
+9 silly lockFile 3a52ce78- .
+10 verbose lock . /Volumes/Bertha/users/koopa/.npm/3a52ce78-.lock
+11 verbose read json package.json
+12 verbose tar pack [ '/var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz',
+12 verbose tar pack   '.' ]
+13 verbose tarball /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz
+14 verbose folder .
+15 info prepublish vogue@0.0.1
+16 silly lockFile 3a52ce78- .
+17 verbose lock . /Volumes/Bertha/users/koopa/.npm/3a52ce78-.lock
+18 silly lockFile 91baa2c2-94734-0-4135318382177502-tmp-tgz /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz
+19 verbose lock /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz /Volumes/Bertha/users/koopa/.npm/91baa2c2-94734-0-4135318382177502-tmp-tgz.lock
+20 silly lockFile 3a52ce78- .
+21 silly lockFile 3a52ce78- .
+22 silly lockFile 91baa2c2-94734-0-4135318382177502-tmp-tgz /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz
+23 silly lockFile 91baa2c2-94734-0-4135318382177502-tmp-tgz /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz
+24 verbose tar unpack /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz
+25 silly lockFile 326ee80e-94734-0-4135318382177502-package /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package
+26 verbose lock /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package /Volumes/Bertha/users/koopa/.npm/326ee80e-94734-0-4135318382177502-package.lock
+27 silly lockFile 91baa2c2-94734-0-4135318382177502-tmp-tgz /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz
+28 verbose lock /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz /Volumes/Bertha/users/koopa/.npm/91baa2c2-94734-0-4135318382177502-tmp-tgz.lock
+29 silly gunzTarPerm modes [ '755', '644' ]
+30 silly gunzTarPerm extractEntry package.json
+31 silly gunzTarPerm extractEntry .npmignore
+32 silly gunzTarPerm extractEntry vogue.js
+33 silly gunzTarPerm extractEntry Makefile
+34 silly gunzTarPerm extractEntry example/bundle.js
+35 silly gunzTarPerm extractEntry example/index.html
+36 silly gunzTarPerm extractEntry readme.md
+37 silly gunzTarPerm extractEntry test/vogue-test.js
+38 silly gunzTarPerm extractEntry test/my-mail-server.jpg
+39 silly gunzTarPerm extractEntry test/open_key_notation.png
+40 silly gunzTarPerm extractEntry test/runner.html
+41 silly gunzTarPerm extractEntry test/voyager.jpg
+42 silly gunzTarPerm extractEntry vogue.css
+43 verbose read json /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package/package.json
+44 silly lockFile 326ee80e-94734-0-4135318382177502-package /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package
+45 silly lockFile 326ee80e-94734-0-4135318382177502-package /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package
+46 silly lockFile 91baa2c2-94734-0-4135318382177502-tmp-tgz /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz
+47 silly lockFile 91baa2c2-94734-0-4135318382177502-tmp-tgz /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/tmp.tgz
+48 verbose from cache /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package/package.json
+49 verbose tar pack [ '/Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz',
+49 verbose tar pack   '/var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package' ]
+50 verbose tarball /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz
+51 verbose folder /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package
+52 silly lockFile 326ee80e-94734-0-4135318382177502-package /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package
+53 verbose lock /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package /Volumes/Bertha/users/koopa/.npm/326ee80e-94734-0-4135318382177502-package.lock
+54 silly lockFile 1424fcf7-oopa-npm-vogue-0-0-1-package-tgz /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz
+55 verbose lock /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz /Volumes/Bertha/users/koopa/.npm/1424fcf7-oopa-npm-vogue-0-0-1-package-tgz.lock
+56 silly lockFile 326ee80e-94734-0-4135318382177502-package /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package
+57 silly lockFile 326ee80e-94734-0-4135318382177502-package /var/folders/_3/jzgq6b0j5611gztdx7c8lxzh0000gn/T/npm-64189/1368724194734-0.4135318382177502/package
+58 silly lockFile 1424fcf7-oopa-npm-vogue-0-0-1-package-tgz /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz
+59 silly lockFile 1424fcf7-oopa-npm-vogue-0-0-1-package-tgz /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz
+60 silly lockFile 327bc09e-rs-koopa-npm-vogue-0-0-1-package /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package
+61 verbose lock /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package /Volumes/Bertha/users/koopa/.npm/327bc09e-rs-koopa-npm-vogue-0-0-1-package.lock
+62 silly lockFile 327bc09e-rs-koopa-npm-vogue-0-0-1-package /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package
+63 silly lockFile 327bc09e-rs-koopa-npm-vogue-0-0-1-package /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package
+64 verbose tar unpack /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz
+65 silly lockFile 327bc09e-rs-koopa-npm-vogue-0-0-1-package /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package
+66 verbose lock /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package /Volumes/Bertha/users/koopa/.npm/327bc09e-rs-koopa-npm-vogue-0-0-1-package.lock
+67 silly lockFile 1424fcf7-oopa-npm-vogue-0-0-1-package-tgz /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz
+68 verbose lock /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz /Volumes/Bertha/users/koopa/.npm/1424fcf7-oopa-npm-vogue-0-0-1-package-tgz.lock
+69 silly gunzTarPerm modes [ '755', '644' ]
+70 silly gunzTarPerm extractEntry package.json
+71 silly gunzTarPerm extractEntry .npmignore
+72 silly gunzTarPerm extractEntry vogue.js
+73 silly gunzTarPerm extractEntry Makefile
+74 silly gunzTarPerm extractEntry example/bundle.js
+75 silly gunzTarPerm extractEntry example/index.html
+76 silly gunzTarPerm extractEntry readme.md
+77 silly gunzTarPerm extractEntry test/vogue-test.js
+78 silly gunzTarPerm extractEntry test/my-mail-server.jpg
+79 silly gunzTarPerm extractEntry test/open_key_notation.png
+80 silly gunzTarPerm extractEntry test/runner.html
+81 silly gunzTarPerm extractEntry test/voyager.jpg
+82 silly gunzTarPerm extractEntry vogue.css
+83 verbose read json /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package/package.json
+84 silly lockFile 327bc09e-rs-koopa-npm-vogue-0-0-1-package /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package
+85 silly lockFile 327bc09e-rs-koopa-npm-vogue-0-0-1-package /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package
+86 silly lockFile 1424fcf7-oopa-npm-vogue-0-0-1-package-tgz /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz
+87 silly lockFile 1424fcf7-oopa-npm-vogue-0-0-1-package-tgz /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz
+88 silly shasum updated bytes 65536
+89 silly shasum updated bytes 65536
+90 silly shasum updated bytes 65536
+91 silly shasum updated bytes 65536
+92 silly shasum updated bytes 65536
+93 silly shasum updated bytes 8291
+94 info shasum a492c6b183ce0c1bfa103c69cae754f48258f286
+94 info shasum /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz
+95 verbose from cache /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package/package.json
+96 verbose chmod /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz 644
+97 verbose chown /Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz [ 501, 20 ]
+98 silly lockFile 3a52ce78- .
+99 silly publish { name: 'vogue',
+99 silly publish   version: '0.0.1',
+99 silly publish   description: 'Image cropper',
+99 silly publish   main: 'vogue.js',
+99 silly publish   directories: { test: 'test' },
+99 silly publish   scripts: { test: 'make test' },
+99 silly publish   repository:
+99 silly publish    { type: 'git',
+99 silly publish      url: 'git://github.com/SpiderStrategies/vogue.git' },
+99 silly publish   keywords: [ 'image', 'image-cropper', 'crop' ],
+99 silly publish   license: 'BSD',
+99 silly publish   readmeFilename: 'readme.md',
+99 silly publish   gitHead: '95ae1e765b58fb4508c2af166793101a02d8c1ea',
+99 silly publish   dependencies:
+99 silly publish    { backbone: 'https://github.com/SpiderStrategies/backbone/tarball/1.0.0-lodash',
+99 silly publish      lodash: '~1.2.1',
+99 silly publish      'nano-slider': '0.0.2' },
+99 silly publish   devDependencies:
+99 silly publish    { mocha: '~1.9.0',
+99 silly publish      chai: '~1.6.0',
+99 silly publish      'uglify-js': '~2.2.5',
+99 silly publish      browserify: '~2.13.3' },
+99 silly publish   readme: 'A simple and classy image cropper.\n\nSee example.\n',
+99 silly publish   _id: 'vogue@0.0.1',
+99 silly publish   dist: { shasum: 'a492c6b183ce0c1bfa103c69cae754f48258f286' },
+99 silly publish   _from: '.' }
+100 verbose url raw vogue
+101 verbose url resolving [ 'https://registry.npmjs.org/', './vogue' ]
+102 verbose url resolved https://registry.npmjs.org/vogue
+103 info trying registry request attempt 1 at 13:10:06
+104 http PUT https://registry.npmjs.org/vogue
+105 http 409 https://registry.npmjs.org/vogue
+106 verbose url raw vogue
+107 verbose url resolving [ 'https://registry.npmjs.org/', './vogue' ]
+108 verbose url resolved https://registry.npmjs.org/vogue
+109 info trying registry request attempt 1 at 13:10:06
+110 http GET https://registry.npmjs.org/vogue
+111 http 200 https://registry.npmjs.org/vogue
+112 verbose uploading [ 'vogue/-/vogue-0.0.1.tgz/-rev/42-a23f6a5108cea516650efc2e5d48ce30',
+112 verbose uploading   '/Volumes/Bertha/users/koopa/.npm/vogue/0.0.1/package.tgz' ]
+113 verbose url raw vogue/-/vogue-0.0.1.tgz/-rev/42-a23f6a5108cea516650efc2e5d48ce30
+114 verbose url resolving [ 'https://registry.npmjs.org/',
+114 verbose url resolving   './vogue/-/vogue-0.0.1.tgz/-rev/42-a23f6a5108cea516650efc2e5d48ce30' ]
+115 verbose url resolved https://registry.npmjs.org/vogue/-/vogue-0.0.1.tgz/-rev/42-a23f6a5108cea516650efc2e5d48ce30
+116 info trying registry request attempt 1 at 13:10:07
+117 http PUT https://registry.npmjs.org/vogue/-/vogue-0.0.1.tgz/-rev/42-a23f6a5108cea516650efc2e5d48ce30
+118 http 403 https://registry.npmjs.org/vogue/-/vogue-0.0.1.tgz/-rev/42-a23f6a5108cea516650efc2e5d48ce30
+119 info trying registry request attempt 1 at 13:10:07
+120 http PUT https://registry.npmjs.org/vogue/-/vogue-0.0.1.tgz/-rev/42-a23f6a5108cea516650efc2e5d48ce30
+121 http 403 https://registry.npmjs.org/vogue/-/vogue-0.0.1.tgz/-rev/42-a23f6a5108cea516650efc2e5d48ce30
+122 error publish Error uploading package
+123 error Error: forbidden user: koopa not authorized to modify vogue
+123 error Added: _attachments.vogue-0.0.1.tgz: vogue/-/vogue-0.0.1.tgz/-rev/42-a23f6a5108cea516650efc2e5d48ce30
+123 error     at RegClient.<anonymous> (/usr/local/Cellar/node/0.10.5/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:269:14)
+123 error     at Request.self.callback (/usr/local/Cellar/node/0.10.5/lib/node_modules/npm/node_modules/request/index.js:142:22)
+123 error     at Request.EventEmitter.emit (events.js:98:17)
+123 error     at Request.<anonymous> (/usr/local/Cellar/node/0.10.5/lib/node_modules/npm/node_modules/request/index.js:856:14)
+123 error     at Request.EventEmitter.emit (events.js:117:20)
+123 error     at IncomingMessage.<anonymous> (/usr/local/Cellar/node/0.10.5/lib/node_modules/npm/node_modules/request/index.js:808:12)
+123 error     at IncomingMessage.EventEmitter.emit (events.js:117:20)
+123 error     at _stream_readable.js:895:16
+123 error     at process._tickCallback (node.js:415:13)
+124 error If you need help, you may report this log at:
+124 error     <http://github.com/isaacs/npm/issues>
+124 error or email it to:
+124 error     <npm-@googlegroups.com>
+125 error System Darwin 11.4.2
+126 error command "/usr/local/Cellar/node/0.10.5/bin/node" "/usr/local/bin/npm" "publish"
+127 error cwd /Volumes/Bertha/users/koopa/development/playground/vogue
+128 error node -v v0.10.5
+129 error npm -v 1.2.18
+130 verbose exit [ 1, true ]
