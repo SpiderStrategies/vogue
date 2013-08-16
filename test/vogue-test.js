@@ -102,24 +102,27 @@ describe('Vogue', function () {
       vogue = initSquare(500, 500)
 
       vogue.loaded().then(function () {
-        var startX = vogue.$el.position().left + 10
-          , startY = vogue.$el.position().top + 10
-          , finishX = startX + 10
-          , finishY = startY + 10
-          , initWindow = vogue.window()
+        try {
+          var startX = vogue.$el.position().left + 10
+            , startY = vogue.$el.position().top + 10
+            , finishX = startX + 10
+            , finishY = startY + 10
+            , initWindow = vogue.window()
+            , $target = vogue.$('.vogue-preview')
 
-        vogue.$el.trigger($.Event('mousedown', {pageX: startX, pageY: startY}))
-        vogue.$el.trigger($.Event('mousemove', {pageX: finishX, pageY: finishY}))
-        vogue.$el.trigger($.Event('mouseup', {pageX: finishX, pageY: finishY}))
+          $target.trigger($.Event('mousedown', {pageX: startX, pageY: startY}))
+          $target.trigger($.Event('mousemove', {pageX: finishX, pageY: finishY}))
+          $target.trigger($.Event('mouseup', {pageX: finishX, pageY: finishY}))
 
-        var vwin = vogue.window()
-        assert.equal(vwin.zoom, initWindow.zoom)
-        // Moving image down/right moves the window corner up/left
-        assert.equal(vwin.x, initWindow.x - 10)
-        assert.equal(vwin.y, initWindow.y - 10)
-        assert.equal(vwin.width, initWindow.width)
-        assert.equal(vwin.height, initWindow.height)
-        done()
+          var vwin = vogue.window()
+          assert.equal(vwin.zoom, initWindow.zoom)
+          // Moving image down/right moves the window corner up/left
+          assert.equal(vwin.x, initWindow.x - 10)
+          assert.equal(vwin.y, initWindow.y - 10)
+          assert.equal(vwin.width, initWindow.width)
+          assert.equal(vwin.height, initWindow.height)
+          done()
+        } catch (err) { done(err)}
       })
     })
 
@@ -127,38 +130,41 @@ describe('Vogue', function () {
       vogue = initSquare(530, 530)
 
       vogue.loaded().then(function () {
-        var startX = vogue.$el.position().left + 15
-          , startY = vogue.$el.position().top + 15
-          , finishX = startX + 15
-          , finishY = startY + 15
-          , initWindow = vogue.window()
+        try {
+          var startX = vogue.$el.position().left + 15
+            , startY = vogue.$el.position().top + 15
+            , finishX = startX + 15
+            , finishY = startY + 15
+            , initWindow = vogue.window()
+            , $target = vogue.$('.vogue-preview')
 
-        vogue.$el.trigger($.Event('mousedown', {pageX: startX, pageY: startY}))
-        vogue.$el.trigger($.Event('mousemove', {pageX: finishX, pageY: finishY}))
-        vogue.$el.trigger($.Event('mouseup', {pageX: finishX, pageY: finishY}))
+          $target.trigger($.Event('mousedown', {pageX: startX, pageY: startY}))
+          $target.trigger($.Event('mousemove', {pageX: finishX, pageY: finishY}))
+          $target.trigger($.Event('mouseup', {pageX: finishX, pageY: finishY}))
 
-        var vwin = vogue.window()
-        assert.equal(vwin.x, 0)
-        assert.equal(vwin.y, 0)
+          var vwin = vogue.window()
+          assert.equal(vwin.x, 0)
+          assert.equal(vwin.y, 0)
 
 
-        vogue.$el.trigger($.Event('mousedown', {pageX: finishX, pageY: finishY}))
-        vogue.$el.trigger($.Event('mousemove', {pageX: finishX + 200, pageY: finishY + 200}))
-        vogue.$el.trigger($.Event('mouseup', {pageX: finishX + 200, pageY: finishY + 200}))
+          $target.trigger($.Event('mousedown', {pageX: finishX, pageY: finishY}))
+          $target.trigger($.Event('mousemove', {pageX: finishX + 200, pageY: finishY + 200}))
+          $target.trigger($.Event('mouseup', {pageX: finishX + 200, pageY: finishY + 200}))
 
-        vwin = vogue.window()
-        assert.equal(vwin.x, 0)
-        assert.equal(vwin.y, 0)
+          vwin = vogue.window()
+          assert.equal(vwin.x, 0)
+          assert.equal(vwin.y, 0)
 
-        vogue.$el.trigger($.Event('mousedown', {pageX: finishX, pageY: finishY}))
-        vogue.$el.trigger($.Event('mousemove', {pageX: finishX - 200, pageY: finishY - 200}))
-        vogue.$el.trigger($.Event('mouseup', {pageX: finishX - 200, pageY: finishY - 200}))
+          $target.trigger($.Event('mousedown', {pageX: finishX, pageY: finishY}))
+          $target.trigger($.Event('mousemove', {pageX: finishX - 200, pageY: finishY - 200}))
+          $target.trigger($.Event('mouseup', {pageX: finishX - 200, pageY: finishY - 200}))
 
-        vwin = vogue.window()
-        assert.equal(vwin.x, 30)
-        assert.equal(vwin.y, 30)
+          vwin = vogue.window()
+          assert.equal(vwin.x, 30)
+          assert.equal(vwin.y, 30)
 
-        done()
+          done()
+        } catch (err) { done(err)}
       })
     })
   })
