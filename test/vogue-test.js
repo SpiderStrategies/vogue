@@ -8,7 +8,7 @@ describe('Vogue', function () {
     it('square image, zoomed and positioned with half of border filled', function (done) {
       var vogue = initSquare(530, 530)
 
-      vogue.loaded().then(function () {
+      vogue.on('load', function () {
         var vwin = vogue.window()
         assert.equal(vwin.zoom, 1)
         assert.equal(vwin.x, 15)
@@ -17,12 +17,14 @@ describe('Vogue', function () {
         assert.equal(vwin.height, 470)
         done()
       })
+
+      render(vogue)
     })
 
     it('tall image, zoomed and positioned with half of left/right borders filled', function (done) {
       var vogue = initTall(230, 230)
 
-      vogue.loaded().then(function () {
+      vogue.on('load', function () {
         var vwin = vogue.window()
         assert.equal(vwin.zoom, .5)
         assert.equal(vwin.x, 15)
@@ -31,12 +33,14 @@ describe('Vogue', function () {
         assert.equal(vwin.height, 170)
         done()
       })
+
+      render(vogue)
     })
 
     it('wide image, zoomed and positioned with half of top/bottom borders filled', function (done) {
       var vogue = initWide(230, 230)
 
-      vogue.loaded().then(function () {
+      vogue.on('load', function () {
         var vwin = vogue.window()
         assert.equal(vwin.zoom, .5)
         assert.equal(vwin.x, 65)
@@ -45,6 +49,8 @@ describe('Vogue', function () {
         assert.equal(vwin.height, 170)
         done()
       })
+
+      render(vogue)
     })
   })
 
@@ -52,31 +58,34 @@ describe('Vogue', function () {
     it('minZoom is smallest amount that will have no whitespace, max zoom is 3x that', function (done) {
       var vogue = initSquare(310, 310)
 
-      vogue.loaded().then(function () {
+      vogue.on('load', function () {
         assert.equal(vogue._minZoom, .5)
         assert.equal(vogue._maxZoom, 1.5)
         done()
       })
+      render(vogue)
     })
 
     it('minZoom/maxZoom for a wide image', function (done) {
       var vogue = initWide(260, 260)
 
-      vogue.loaded().then(function () {
+      vogue.on('load', function () {
         assert.equal(vogue._minZoom, .5)
         assert.equal(vogue._maxZoom, 1.5)
         done()
       })
+      render(vogue)
     })
 
     it('minZoom/maxZoom for a tall image', function (done) {
       var vogue = initTall(260, 260)
 
-      vogue.loaded().then(function () {
+      vogue.on('load', function () {
         assert.equal(vogue._minZoom, .5)
         assert.equal(vogue._maxZoom, 1.5)
         done()
       })
+      render(vogue)
     })
   })
 
@@ -84,7 +93,7 @@ describe('Vogue', function () {
     it('zooms in', function (done) {
       var vogue = initSquare(500, 500)
 
-      vogue.loaded().then(function () {
+      vogue.on('load', function () {
         vogue.zoom(2)
         var vwin = vogue.window()
         assert.equal(vwin.zoom, 2)
@@ -94,6 +103,7 @@ describe('Vogue', function () {
         assert.equal(vwin.height, 440)
         done()
       })
+      render(vogue)
     })
   })
 
@@ -101,7 +111,7 @@ describe('Vogue', function () {
     it('drags on mouse click/move', function (done) {
       vogue = initSquare(500, 500)
 
-      vogue.loaded().then(function () {
+      vogue.on('load', function () {
         try {
           var startX = vogue.$el.position().left + 10
             , startY = vogue.$el.position().top + 10
@@ -124,12 +134,13 @@ describe('Vogue', function () {
           done()
         } catch (err) { done(err)}
       })
+      render(vogue)
     })
 
     it('does not drag edge of image past the window frame (ie no whitespace in window)', function (done) {
       vogue = initSquare(530, 530)
 
-      vogue.loaded().then(function () {
+      vogue.on('load', function () {
         try {
           var startX = vogue.$el.position().left + 15
             , startY = vogue.$el.position().top + 15
@@ -166,6 +177,7 @@ describe('Vogue', function () {
           done()
         } catch (err) { done(err)}
       })
+      render(vogue)
     })
   })
 
@@ -177,8 +189,11 @@ describe('Vogue', function () {
         height: height
       }
     })
-    $('#vogue-container').append(vogue.render().el)
     return vogue
+  }
+
+  function render (vogue) {
+    $('#vogue-container').append(vogue.render().el)
   }
 
   function initSquare (width, height) {

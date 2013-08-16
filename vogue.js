@@ -23,13 +23,6 @@ var Vogue = Backbone.View.extend({
     this.frameWidth = 30
   },
 
-  loaded: function () {
-    if(!this._loaded) {
-      this._loaded = new $.Deferred()
-    }
-    return this._loaded
-  },
-
   render: function () {
     var self = this
       , img = new Image()
@@ -91,7 +84,7 @@ var Vogue = Backbone.View.extend({
 
       self.$el.append(slider.render().el)
 
-      self.loaded().resolve()
+      self.trigger('load')
     })
 
     return this
