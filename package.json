@@ -1,6 +1,6 @@
 {
   "name": "image-vogue",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Image cropper",
   "main": "vogue.js",
   "directories": {
