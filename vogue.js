@@ -78,11 +78,11 @@ var Vogue = Backbone.View.extend({
 
       var slider = new Slider({ value: self._sliderPercent(initialZoom) * 100, step: null})
 
-      slider.on('change', function (value) {
+      slider.on('change', function (e, value) {
         self.zoom(self._realPercent(value / 100))
       })
 
-      self.$el.append(slider.render().el)
+      self.$el.append(slider.render().$el)
 
       self.trigger('load')
     })
