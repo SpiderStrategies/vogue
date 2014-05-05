@@ -3,7 +3,6 @@
   <head>
     <title>Vogue Example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.js"></script>
     <script src="./bundle.js"></script>
     <link rel="stylesheet" type="text/css" href="../node_modules/nano-slider/slider.css">
     <link rel="stylesheet" type="text/css" href="../vogue.css">
@@ -23,8 +22,10 @@
     </style>
 
     <script type="text/javascript">
-      $(document).ready(function() {
+      window.onload = function () {
         var Vogue = require('./vogue')
+          , $ = require('jquery')
+
         var vogue = new Vogue({
           preview: {
             height: 310,
@@ -38,7 +39,7 @@
         vogue.on('moveEnd zoom', function () {
           $('#output').html(JSON.stringify(vogue.window(), undefined, 2))
         })
-      })
+      }
     </script>
   </head>
 

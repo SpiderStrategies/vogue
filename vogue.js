@@ -1,6 +1,9 @@
 var Backbone = require('backbone')
   , _ = require('lodash')
   , Slider = require('nano-slider')
+  , $ = require('jquery')
+
+Backbone.$ = $
 
 /* TODO
   - pinch zoom

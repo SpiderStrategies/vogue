@@ -1,5 +1,6 @@
 var Vogue = require('./vogue')
   , assert = chai.assert
+  , $ = require('jquery')
 
 describe('Vogue', function () {
   var inception
