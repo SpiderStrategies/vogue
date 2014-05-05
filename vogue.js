@@ -20,8 +20,10 @@ var Vogue = Backbone.View.extend({
     'click': 'click'
   },
 
-  initialize: function () {
+  initialize: function (options) {
     _.bindAll(this, 'move', 'endMove')
+
+    this.options = options
 
     this.frameWidth = 30
   },
