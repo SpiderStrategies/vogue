@@ -147,11 +147,9 @@ var Vogue = Backbone.View.extend({
       zoom)
 
     $img.css({
-      'transform': 'scale(' + (zoom) + ')',
-      '-ms-transform': 'scale(' + (zoom) + ')',
-      '-webkit-transform': 'scale(' + (zoom) + ')',
+      transform: 'scale(' + zoom + ')',
       left: constrained.left + 'px',
-      top: constrained.top + 'px',
+      top: constrained.top + 'px'
     })
 
     this._zoom = zoom
