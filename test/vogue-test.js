@@ -1,9 +1,8 @@
-var Vogue = require('./vogue')
-  , assert = chai.assert
+var Vogue = require('vogue')
+  , assert = require('assert')
   , $ = require('jquery')
 
 describe('Vogue', function () {
-  var inception
 
   describe('render', function () {
     it('square image, zoomed and positioned with half of border filled', function (done) {
