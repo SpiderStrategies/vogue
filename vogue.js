@@ -47,7 +47,7 @@ var Vogue = Backbone.View.extend({
       width: this.options.preview.width + 'px'
     })
 
-    $img.load(function () {
+    $img.on('load', function () {
       self.original = {
         width: img.width,
         height: img.height
@@ -167,8 +167,8 @@ var Vogue = Backbone.View.extend({
     this.dragStartLoc = {
       left: parseInt($img[0].style.left),
       top: parseInt($img[0].style.top),
-      mouseX: pageX(e),
-      mouseY: pageY(e)
+      mouseX: e.pageX,
+      mouseY: e.pageY
     }
   },
 
@@ -222,8 +222,8 @@ var Vogue = Backbone.View.extend({
   move: function (e) {
     e.stopPropagation()
 
-    var left = this.dragStartLoc.left + pageX(e) - this.dragStartLoc.mouseX
-      , top = this.dragStartLoc.top + pageY(e) - this.dragStartLoc.mouseY
+    var left = this.dragStartLoc.left + e.pageX - this.dragStartLoc.mouseX
+      , top = this.dragStartLoc.top + e.pageY - this.dragStartLoc.mouseY
       , constrained = this._constrain(left, top, this._zoom)
 
     this.$('img').css({
@@ -271,14 +271,6 @@ function calcCoords (coords) {
    } else {
     throw new Error('need either scaled or unscaled coords')
    }
-}
-
-function pageX(e) {
-  return e.type === 'touchmove' || e.type == 'touchstart' ? e.originalEvent.touches[0].pageX : e.pageX
-}
-
-function pageY(e) {
-  return e.type === 'touchmove'|| e.type == 'touchstart' ? e.originalEvent.touches[0].pageY : e.pageY
 }
 
 module.exports = Vogue
