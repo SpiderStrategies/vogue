@@ -24,9 +24,9 @@
   "gitHead": "95ae1e765b58fb4508c2af166793101a02d8c1ea",
   "dependencies": {
     "backbone": "^1.3.3",
-    "jquery": "^3.0.0",
+    "jquery": "3.x",
     "lodash": "^4.11.2",
-    "nano-slider": "^0.2.0"
+    "nano-slider": "^0.2.2"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
